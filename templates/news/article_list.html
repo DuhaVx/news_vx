@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Latest News{% endblock title %}
+
+{% block content %}
+<div class="stack">
+    <form method="get" class="card search">
+        <input
+            type="text"
+            name="q"
+            placeholder="Search by title..."
+            value="{{ query|default_if_none:'' }}"
+        >
+        <input type="submit" value="Search">
+    </form>
+
+    {% if articles %}
+        <div class="stack">
+            {% for article in articles %}
+                <a class="card card-link" href="{% url 'news:article-detail' article.pk %}">
+                    <h2>{{ article.title }}</h2>
+                    <p class="meta">
+                        By {{ article.author.get_username }} · {{ article.created_at|date:"F j, Y" }}
+                    </p>
+                    <p>{{ article.content|truncatewords:30 }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card">
+            <p>No articles found.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock content %}
+

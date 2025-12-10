@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.title }}{% endblock title %}
+
+{% block content %}
+<div class="card stack">
+    <div>
+        <h1>{{ article.title }}</h1>
+        <p class="meta">
+            By {{ article.author.get_username }} · Published {{ article.created_at|date:"F j, Y, H:i" }}
+            {% if article.updated_at and article.updated_at != article.created_at %}
+                · Updated {{ article.updated_at|date:"F j, Y, H:i" }}
+            {% endif %}
+        </p>
+    </div>
+    <p>{{ article.content|linebreaks }}</p>
+    <div>
+        <a class="button" href="{% url 'news:article-list' %}">Back to list</a>
+    </div>
+</div>
+{% endblock content %}
+
